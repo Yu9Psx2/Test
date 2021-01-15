@@ -22,17 +22,22 @@ class MainApp(App):
             return
 
         def calculateSolution(instance, value):
-            solution.text = str(float(termValue.text) * float(interestValue.text) * float(mortgageValue.text))
+            answer = int((1+float(interestValue.text)/100)**int(termValue.text) * float(mortgageValue.text))
+            solution.text = "Total Amount: " + format(answer, ',d')
+            solutionInterest.text = "Interest Amount: " + format(answer - int(mortgageValue.text), ',d')
+            print(solutionInterest.text)
             return
+
 
         main_layout = BoxLayout(orientation="vertical")
         display_layout =BoxLayout(orientation="horizontal")
+        solution_layout = BoxLayout(orientation="vertical")
         mortgage_layout = BoxLayout(orientation="horizontal")
         interest_layout = BoxLayout(orientation="horizontal")
         term_layout = BoxLayout(orientation="horizontal")
 
-        solution = Label(text="0")
-
+        solution = Label(text="Total Amount: ")
+        solutionInterest = Label(text="Interest Total: ")
 
         button = Button(text="Press to Calculate", pos_hint={"center_x": 0.5, "center_y": 0.5})
         button.bind(state=calculateSolution)
@@ -58,7 +63,9 @@ class MainApp(App):
         term_layout.add_widget(termValue)
         termControl.bind(value = term_on_value)
 
-        display_layout.add_widget(solution)
+        solution_layout.add_widget(solution)
+        solution_layout.add_widget(solutionInterest)
+        display_layout.add_widget(solution_layout)
         display_layout.add_widget(button)
         main_layout.add_widget(display_layout)
         main_layout.add_widget(mortgage_layout)
@@ -73,3 +80,4 @@ class MainApp(App):
 if __name__ == "__main__":
     app = MainApp()
     app.run()
+
